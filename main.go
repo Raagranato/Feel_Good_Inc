@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+    "fmt" 
+    "internal/ui"
+    
+    
+    )
 
 func main() {
-    fmt.Println("Hello, Cards!")
+    fmt.Println("Welcome to Feel Good INC!")
+    Menu();
 }

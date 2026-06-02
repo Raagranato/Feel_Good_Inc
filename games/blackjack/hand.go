@@ -1,5 +1,5 @@
-package players
-import "Cards/card"
+package blackjack
+import "internal/deck/card"
 
 type Hand struct {
     Cards []card.Card
@@ -15,6 +15,6 @@ type Dealer struct {
     Hand
 }
 
-func sumPoints(card.cards[]) int num{
+//func sumPoints(card.cards[]) int num{
 
-}
+//}
