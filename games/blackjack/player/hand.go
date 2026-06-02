@@ -14,3 +14,7 @@ type Player struct {
 type Dealer struct {
     Hand
 }
+
+func sumPoints(card.cards[]) int num{
+
+}
