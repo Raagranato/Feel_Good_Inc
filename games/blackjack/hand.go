@@ -1,8 +1,8 @@
 package blackjack
-import "internal/deck/card"
+import "FeelGoodInc/internal/deck"
 
 type Hand struct {
-    Cards []card.Card
+    Cards []deck.Card
     Score int
 }
 

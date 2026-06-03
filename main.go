@@ -1,13 +1,13 @@
 package main
-
+//go run main.go
 import (
     "fmt" 
-    "internal/ui"
-    
-    
+    "FeelGoodInc/internal/ui"
+    "FeelGoodInc/styles"
+        
     )
 
 func main() {
-    fmt.Println("Welcome to Feel Good INC!")
-    Menu();
+    fmt.Println(styles.Welcome.Render("Feel Good Inc"))
+    ui.Menu();
 }
