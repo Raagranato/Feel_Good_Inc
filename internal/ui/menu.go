@@ -5,6 +5,7 @@ import (
 	"FeelGoodInc/internal/utils"
 	"FeelGoodInc/styles"
 	tea "github.com/charmbracelet/bubbletea"
+	"fmt"
 )
 
 // Faz o malabarismo do menu, p ficar bonitinho
@@ -62,4 +63,12 @@ func Menu() {
 	}
 	tea.NewProgram(m).Run()
 	utils.ClearTerminal()
+}
+
+func Welcome() {
+	fmt.Println(" ╔═══════════════════════════════════════════════════╗ ")
+	fmt.Println(" ║░█▀▀░█▀▀░█▀▀░█░░░░░█▀▀░█▀█░█▀█░█▀▄░░░▀█▀░█▀█░█▀▀░░░║ ")
+	fmt.Println(" ║░█▀▀░█▀▀░█▀▀░█░░░░░█░█░█░█░█░█░█░█░░░░█░░█░█░█░░░░░║ ")
+	fmt.Println(" ║░▀░░░▀▀▀░▀▀▀░▀▀▀░░░▀▀▀░▀▀▀░▀▀▀░▀▀░░░░▀▀▀░▀░▀░▀▀▀░▀░║ ")
+	fmt.Println(" ╚═══════════════════════════════════════════════════╝ ")
 }
