@@ -101,3 +101,10 @@ func atoi(value string) int { //tranforma string do valor da carta para int
 	}
 
 }
+//------------------------------------------------------------------------------------------------------------
+
+
+
+// func InitPlayers()(player Player,dealer Dealer){
+    
+// }

@@ -20,7 +20,7 @@ Avalia a Pontuação:
     Se a pontuação for EXATAMENTE 17: Aqui entra a checagem:
         É um Hard 17? (Ex: $10 + 7$, ou seja, não tem Ás valendo 11). Ele Para (Stand).
         É um Soft 17?(Ex: $A + 6$, onde o Ás está valendo 11). Ele Compra outra carta (Hit).)
--
+-Salvar no meio do jogo
 -
 -
 -

@@ -2,10 +2,12 @@ package ui
 
 import (
 	//"fmt"
+	"FeelGoodInc/games/blackjack"
 	"FeelGoodInc/internal/utils"
 	"FeelGoodInc/styles"
-	tea "github.com/charmbracelet/bubbletea"
 	"fmt"
+
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 // Faz o malabarismo do menu, p ficar bonitinho
@@ -22,6 +24,11 @@ func (m FirstState) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
+		case "enter":
+			if(m.opc == 0){
+				utils.ClearTerminal()
+				blackjack.Play()
+			}
 		case "up":
 			if m.opc != 0 { //impede de passar dos limites
 				m.opc--
