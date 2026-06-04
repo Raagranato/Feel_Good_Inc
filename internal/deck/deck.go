@@ -59,69 +59,13 @@ func PrintCards(cards []Card) {
 	}
 	fmt.Print("\n\n\n\n")
 }
-
-func PrintDealer(cards []Card) {
-
-	for i := 0; i < len(cards); i++ {
-		fmt.Print("╔═══╗ ")
-	}
-	fmt.Print("╔═══╗ ")
-	fmt.Println()
-	//imprime letra
-	for _, card := range cards {
-		fmt.Printf("║ %s ║ ", card.Value)//TODO: o 10 ta quebrando a formatação
-	}
-	fmt.Printf("║░░░║ ")
-	fmt.Println()
-	//imprime simbolo
-	for _, card := range cards {
-		fmt.Printf("║ %s ║ ", card.Suit)
-	}
-	fmt.Printf("║░░░║ ")
-	fmt.Println()
-	for i := 0; i < len(cards); i++ {
-		fmt.Print("╚═══╝ ")
-	}
-	fmt.Print("╚═══╝ ")
-
-}
-func PrintDealerDone(cards []Card) {
-	for i := 0; i < len(cards); i++ {
-		fmt.Print("╔═══╗ ")
-	}
-	fmt.Println()
-	//imprime letra
-	for _, card := range cards {
-		fmt.Printf("║ %s ║ ", card.Value)
-	}
-	fmt.Println()
-	//imprime simbolo
-	for _, card := range cards {
-		fmt.Printf("║ %s ║ ", card.Suit)
-	}
-	fmt.Println()
-	for i := 0; i < len(cards); i++ {
-		fmt.Print("╚═══╝ ")
-	}
-	fmt.Print("\n\n\n\n")
-}
-// ╔════════════════════════════════════════╗
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ║                                        ║
-// ╚════════════════════════════════════════╝
+// ╔══════════╗
+// ║          ║
+// ║          ║
+// ║          ║
+// ║          ║
+// ║          ║
+// ╚══════════╝
 
 // │                                        │
 // └────────────────────────────────────────┘

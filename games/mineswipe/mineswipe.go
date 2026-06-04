@@ -1,1 +1,3 @@
 package mineswipe
+
+func Play(){}

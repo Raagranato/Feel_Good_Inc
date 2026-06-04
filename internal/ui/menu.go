@@ -3,6 +3,7 @@ package ui
 import (
 	//"fmt"
 	"FeelGoodInc/games/blackjack"
+	"FeelGoodInc/games/mineswipe"
 	"FeelGoodInc/internal/utils"
 	"FeelGoodInc/styles"
 	"fmt"
@@ -28,6 +29,9 @@ func (m FirstState) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if(m.opc == 0){
 				utils.ClearTerminal()
 				blackjack.Play()
+			}else if(m.opc == 1){
+				utils.ClearTerminal()
+				mineswipe.Play()
 			}
 		case "up":
 			if m.opc != 0 { //impede de passar dos limites
@@ -45,13 +49,13 @@ func (m FirstState) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m FirstState) View() string {
-	s := styles.Title.Render("Pick your poison") + "\n\n"
+	s := styles.Title("Pick your poison") + "\n\n"
 
 	for i := 0; i < len(m.choices); i++ {
 		cursor := "    "
 		line := m.choices[i]
 		if i == m.opc {
-			line = styles.Selected.Render(line)
+			line = styles.Selected(line)
 		}
 		s += cursor + line + "\n"
 	}
@@ -64,12 +68,13 @@ func (m FirstState) View() string {
 //-----------------------------------------------------------------------------------------------------
 
 func Menu() {
-	m := FirstState{
-		choices: []string{"Blackjack", "Mineswipe"},
-		opc:     0,
-	}
-	tea.NewProgram(m).Run()
-	utils.ClearTerminal()
+	// m := FirstState{
+	// 	choices: []string{"Blackjack", "Mineswipe"},
+	// 	opc:     0,
+	// }
+	//tea.NewProgram(m).Run()
+	blackjack.Play()
+	
 }
 
 func Welcome() {
