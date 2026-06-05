@@ -1,3 +1,0 @@
-package mineswipe
-
-func Play(){}

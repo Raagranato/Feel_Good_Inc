@@ -13,7 +13,7 @@ import (
 -Play online(host e client)
 -Salvar no meio do jogo
 -Upgrades?
--
+-Bet in blackjack(atributo q é chamado, double)
 -
 -
 -

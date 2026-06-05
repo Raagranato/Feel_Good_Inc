@@ -3,7 +3,7 @@ package ui
 import (
 	//"fmt"
 	"FeelGoodInc/games/blackjack"
-	"FeelGoodInc/games/mineswipe"
+	"FeelGoodInc/games/minesweeper"
 	"FeelGoodInc/internal/utils"
 	"FeelGoodInc/styles"
 	"fmt"
@@ -31,7 +31,7 @@ func (m FirstState) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				blackjack.Play()
 			}else if(m.opc == 1){
 				utils.ClearTerminal()
-				mineswipe.Play()
+				minesweeper.Play()
 			}
 		case "up":
 			if m.opc != 0 { //impede de passar dos limites
@@ -73,8 +73,9 @@ func Menu() {
 	// 	opc:     0,
 	// }
 	//tea.NewProgram(m).Run()
-	blackjack.Play()
 	
+	//blackjack.Play()
+	minesweeper.Play()
 }
 
 func Welcome() {
