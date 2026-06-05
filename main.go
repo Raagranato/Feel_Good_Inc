@@ -14,7 +14,14 @@ import (
 -Salvar no meio do jogo
 -Upgrades?
 -Bet in blackjack(atributo q é chamado, double)
--
+-Jogos:
+xadrez
+craps
+batalha naval
+roleta
+truco - local deve ser legal
+liars dice
+horse race
 -
 -
 -
