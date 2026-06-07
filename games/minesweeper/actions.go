@@ -2,18 +2,21 @@ package minesweeper
 
 import (
 	"FeelGoodInc/styles"
+	"bufio" //ler linha completa
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"strings"
+	"FeelGoodInc/internal/utils"
 )
 
 const tam = 9
 
 type Board struct {
-	boardClosed [tam][tam]int //-1 bomba e -2 flag
-	IsOpen      [tam][tam]bool
-	won int//1 se ganhou e -1 se perdeu
+	boardClosed [tam][tam]int  //-1 bomba e -2 flag
+	IsOpen      [tam][tam]bool //0 fechada 1 open
+	won         int            //1 se ganhou e -1 se perdeu
 }
 
 // número entre 0 e 9
@@ -27,7 +30,7 @@ func CreateBoard() Board { //inicia as bombas em cada posição
 		y := rand.Intn(tam)
 		if board.boardClosed[x][y] != -1 {
 			board.boardClosed[x][y] = -1
-			if inBounds(x+1, y) && board.boardClosed[x+1][y] != -1 {
+			if inBounds(x+1, y) && board.boardClosed[x+1][y] != -1 { //isBomb
 				board.boardClosed[x+1][y]++
 			}
 			if inBounds(x-1, y) && board.boardClosed[x-1][y] != -1 {
@@ -50,7 +53,7 @@ func inBounds(x, y int) bool {
 }
 
 func PlayerLoop(args string, board *Board) {
-	
+
 	commands := strings.Fields(args)
 	_, err := strconv.Atoi(commands[0])
 	switch {
@@ -65,41 +68,72 @@ func PlayerLoop(args string, board *Board) {
 				fmt.Println("Coordenada inválida!")
 				return
 			}
-			if (inBounds(x,y)){
-				board.boardClosed[x][y] = -2
+			if inBounds(x -1, y-1 ) {
+				board.boardClosed[x -1][y -1] = -2 //flag spot
 			}
 		}
 	case err == nil:
 		{
-			//abrir recurssivamente
+			x, err := strconv.Atoi(commands[0])
+			y, err := strconv.Atoi(commands[1])
+			if err != nil {
+				fmt.Println("Coordenada inválida!")
+				return
+			}
+			if isBomb(x-1, y-1, board) {
+				board.won = -1
+			} else {
+				openCell(x-1, y-1, board)
+			}
+
 		}
-	case strings.TrimSpace(commands[0]) == "":{
-		println("Not a command!\nflag [x] [y]\n")
-	}
-	default:
+	case strings.TrimSpace(commands[0]) == "":
 		{
 			println("Not a command!\nflag [x] [y]\n")
 		}
 	}
 }
 
+func openCell(x int, y int, board *Board) {
+
+	if !inBounds(x, y) || board.IsOpen[x][y] || isBomb(x, y, board) {
+		return
+	}
+	board.IsOpen[x][y] = true
+	if board.boardClosed[x][y] == 0 {
+		openCell(x+1, y, board)
+		openCell(x-1, y, board)
+		openCell(x, y+1, board)
+		openCell(x, y-1, board)
+	}
+}
+
+// le linha completa
 func GetInput() string {
-	fmt.Println("What is your move?")
-	input := string("")
-	fmt.Scanln(&input)
-	return input
+	fmt.Print("What is your move? ")
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	return strings.TrimSpace(input)
 }
 
-func flagSpot(x int, y int, board *Board) {
+func isBomb(x int, y int, board *Board) bool {
+	if board.boardClosed[x][y] == -1 {
+		return true
+	}
+	return false
 
 }
 
-func RenderBoard() {
 
-}
 
 func PrintBoardGameOver(board Board) {
+	fmt.Print("  ")
+	for i := range board.IsOpen {
+		fmt.Printf("%d ", i+1)
+	}
+	fmt.Print("\n")
 	for i := range board.boardClosed {
+		fmt.Printf("%d ", i+1)
 		for j := range board.boardClosed[i] {
 			if board.boardClosed[i][j] == -1 {
 				fmt.Print("✸ ")
@@ -110,17 +144,45 @@ func PrintBoardGameOver(board Board) {
 		fmt.Println()
 	}
 }
-func printBoard(board Board) { //TODO:Imprimir os index do lado da matriz
+
+func PrintBoard(board Board) {
+	utils.ClearTerminal()
+	fmt.Print("  ")
 	for i := range board.IsOpen {
+		fmt.Printf("%d ", i+1)
+	}
+	fmt.Println()
+	for i := range board.IsOpen {
+		fmt.Printf("%d ", i+1)
 		for j := range board.IsOpen[i] {
-			if board.IsOpen[i][j] == false {
-				fmt.Print("# ")
+
+			if board.boardClosed[i][j] == -2 {
+				fmt.Print(styles.Flag("⚑ "))
+			} else if board.IsOpen[i][j] == false {
+				fmt.Print(styles.Closed("▣ "))
 			} else if board.boardClosed[i][j] == -1 {
 				fmt.Print(styles.Lose("✸ "))
-			} else if board.boardClosed[i][j] == -2 {
-				fmt.Print(styles.Draw("⚑ "))
 			} else {
-				fmt.Printf("%d", board.boardClosed[i][j])
+				switch board.boardClosed[i][j] {
+				case 0:
+					fmt.Print("  ")
+				case 1:
+					fmt.Print(styles.One("1 "))
+				case 2:
+					fmt.Print(styles.Two("2 "))
+				case 3:
+					fmt.Print(styles.Three("3 "))
+				case 4:
+					fmt.Print(styles.Four("4 "))
+				case 5:
+					fmt.Print(styles.Five("5 "))
+				case 6:
+					fmt.Print(styles.Six("6 "))
+				case 7:
+					fmt.Print(styles.Seven("7 "))
+				case 8:
+					fmt.Print(styles.Eight("8 "))
+				}
 			}
 		}
 		fmt.Println()

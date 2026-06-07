@@ -97,3 +97,52 @@ func Draw(s string) string {
         Foreground(lipgloss.Color("11")).
         Render(s)
 }
+
+func One(s string) string {
+    // Azul Claro (Tranquilo)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#00BFFF")).Render(s) 
+}
+
+func Two(s string) string {
+    // Verde (Atenção leve)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#32CD32")).Render(s) 
+}
+
+func Three(s string) string {
+    // Amarelo/Dourado (Aviso)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#FFD700")).Render(s) 
+}
+
+func Four(s string) string {
+    // Laranja (Perigo)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#FF8C00")).Render(s) 
+}
+
+func Five(s string) string {
+    // Laranja Avermelhado (Muito perigo)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#FF4500")).Render(s) 
+}
+
+func Six(s string) string {
+    // Vermelho Vivo (Crítico)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#FF0000")).Render(s) 
+}
+
+func Seven(s string) string {
+    // Vermelho Escuro (Quase morte)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#8B0000")).Render(s) 
+}
+
+func Eight(s string) string {
+    // Roxo Escuro (Extremo / Cercado de bombas)
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#800080")).Render(s) 
+}
+
+func Closed(s string) string {
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#8BAC0F")).Render(s)
+}
+
+func Flag(s string) string {
+    // Vermelho vibrante para dar destaque à marcação de bomba
+    return lipgloss.NewStyle().Foreground(lipgloss.Color("#FF0000")).Render(s)
+}
