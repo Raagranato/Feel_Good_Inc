@@ -6,7 +6,9 @@ import ("fmt"
 func ClearTerminal() {
     fmt.Print("\033[H\033[2J")
 }
-
+func SkipLine(){
+    fmt.Print("\n\n")
+}
 func YouLose(){
     println(styles.Lose("You Lost! Better luck Next time"))
     println(styles.Lose("(ノಠ益ಠ)ノ彡┻━┻"))
