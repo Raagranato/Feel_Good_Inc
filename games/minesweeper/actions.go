@@ -73,7 +73,32 @@ func PlayerLoop(args string, board *Board) {
 		return
 	}
 	switch {
-	case commands[0] == "flag":
+	case commands[0] == "q":
+		board.won = -1
+		return
+	case commands[0] == "help":
+		fmt.Println("Commands:")
+		fmt.Println("  [x] [y]        - Open cell")
+		fmt.Println("  [xy]           - Open cell (compact)")
+		fmt.Println("  flag [x] [y]   - Toggle flag")
+		fmt.Println("  f[xy]          - Toggle flag (compact)")
+		fmt.Println("  q              - Quit")
+		fmt.Println("\nPress Enter to continue...")
+		bufio.NewReader(os.Stdin).ReadString('\n')
+		return
+	case len(commands[0]) == 3 && commands[0][0] == 'f':
+		x, errX := strconv.Atoi(string(commands[0][1]))
+		y, errY := strconv.Atoi(string(commands[0][2]))
+		if errX != nil || errY != nil || !inBounds(y-1, x-1) {
+			fmt.Println("Invalid position! Model: f[x][y]")
+			return
+		}
+		if board.IsOpen[y-1][x-1] {
+			fmt.Println("Cell already open!")
+			return
+		}
+		board.IsFlag[y-1][x-1] = !board.IsFlag[y-1][x-1]
+	case commands[0] == ("flag"):
 		{
 			if len(commands) != 3 {
 				return
@@ -84,20 +109,27 @@ func PlayerLoop(args string, board *Board) {
 				fmt.Println("Invalid position!Model: flag [x] [y]")
 				return
 			}
-			if board.IsOpen[x-1][y-1] {
+			if board.IsOpen[y-1][x-1] {
 				fmt.Println("Cell already open!")
 				return
 			}
 			if inBounds(x-1, y-1) {
-				board.IsFlag[x-1][y-1] = !board.IsFlag[x-1][y-1] //flag spot
+				board.IsFlag[y-1][x-1] = !board.IsFlag[y-1][x-1] //flag spot
 			}
 		}
 	default:
 		{
+			if len(commands) == 1 && len(commands[0]) == 2 {
+				commands = []string{
+					string(commands[0][0]),
+					string(commands[0][1]),
+				}
+			}
 			if len(commands) != 2 {
 				fmt.Println("Not a command! Model:[linha] [coluna]")
 				return
 			}
+
 			x, errX := strconv.Atoi(commands[0])
 			y, errY := strconv.Atoi(commands[1])
 			if errX != nil || errY != nil || !inBounds(x-1, y-1) {
@@ -105,14 +137,14 @@ func PlayerLoop(args string, board *Board) {
 				return
 			}
 
-			if board.IsFlag[x-1][y-1] {
+			if board.IsFlag[y-1][x-1] {
 				fmt.Println("Cell with flag! Remove it first. Model:flag [x] [y]")
 				return
 			}
-			if isBomb(x-1, y-1, board) {
+			if isBomb(y-1, x-1, board) {
 				board.won = -1
 			} else {
-				openCell(x-1, y-1, board)
+				openCell(y-1, x-1, board)
 			}
 			ganhou := true
 			for i := 0; i < tam; i++ {
@@ -163,7 +195,21 @@ func isBomb(x int, y int, board *Board) bool {
 
 }
 
+func flagsLeft(board Board) int {
+    bombMax := (tam * tam) * 15 / 100
+    flags := 0
+    for i := range board.IsFlag {
+        for j := range board.IsFlag[i] {
+            if board.IsFlag[i][j] {
+                flags++
+            }
+        }
+    }
+    return bombMax - flags
+}
+
 func PrintBoardGameOver(board Board) {
+	utils.ClearTerminal()
 	fmt.Print("  ")
 	for i := range board.IsOpen {
 		fmt.Printf("%d ", i+1)
@@ -242,5 +288,7 @@ func PrintBoard(board Board) {
 			}
 		}
 		fmt.Println()
+		
 	}
+	fmt.Printf("Flags left: %d\n", flagsLeft(board))
 }
