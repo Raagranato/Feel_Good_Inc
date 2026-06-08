@@ -1,6 +1,7 @@
 package minesweeper
 
 import (
+	"FeelGoodInc/internal/utils"
 	"FeelGoodInc/styles"
 	"bufio" //ler linha completa
 	"fmt"
@@ -8,7 +9,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"FeelGoodInc/internal/utils"
 )
 
 const tam = 9
@@ -16,7 +16,7 @@ const tam = 9
 type Board struct {
 	boardClosed [tam][tam]int  //-1 bomba e -2 flag
 	IsOpen      [tam][tam]bool //0 fechada 1 open
-	won         int            //1 se ganhou e -1 se perdeu
+	won         int //1 se ganhou e -1 se perdeu
 }
 
 // número entre 0 e 9
@@ -42,6 +42,18 @@ func CreateBoard() Board { //inicia as bombas em cada posição
 			if inBounds(x, y-1) && board.boardClosed[x][y-1] != -1 {
 				board.boardClosed[x][y-1]++
 			}
+			if inBounds(x+1, y+1) && board.boardClosed[x+1][y+1] != -1 {
+				board.boardClosed[x+1][y+1]++
+			}
+			if inBounds(x-1, y-1) && board.boardClosed[x-1][y-1] != -1 {
+				board.boardClosed[x-1][y-1]++
+			}
+			if inBounds(x-1, y+1) && board.boardClosed[x-1][y+1] != -1 {
+				board.boardClosed[x-1][y+1]++
+			}
+			if inBounds(x+1, y-1) && board.boardClosed[x+1][y-1] != -1 {
+				board.boardClosed[x+1][y-1]++
+			}
 			contBomb++
 		}
 	}
@@ -57,6 +69,12 @@ func PlayerLoop(args string, board *Board) {
 	commands := strings.Fields(args)
 	_, err := strconv.Atoi(commands[0])
 	switch {
+	case len(commands) == 0:
+		{
+			fmt.Println("Not a command!")
+			fmt.Println("Use: [x] [y] ou flag [x] [y]")
+			return
+		}
 	case commands[0] == "flag":
 		{
 			if len(commands) != 3 {
@@ -68,8 +86,8 @@ func PlayerLoop(args string, board *Board) {
 				fmt.Println("Coordenada inválida!")
 				return
 			}
-			if inBounds(x -1, y-1 ) {
-				board.boardClosed[x -1][y -1] = -2 //flag spot
+			if inBounds(x-1, y-1) {
+				board.boardClosed[x-1][y-1] = -2 //flag spot
 			}
 		}
 	case err == nil:
@@ -87,10 +105,6 @@ func PlayerLoop(args string, board *Board) {
 			}
 
 		}
-	case strings.TrimSpace(commands[0]) == "":
-		{
-			println("Not a command!\nflag [x] [y]\n")
-		}
 	}
 }
 
@@ -105,6 +119,10 @@ func openCell(x int, y int, board *Board) {
 		openCell(x-1, y, board)
 		openCell(x, y+1, board)
 		openCell(x, y-1, board)
+		openCell(x-1, y-1, board)
+		openCell(x+1, y-1, board)
+		openCell(x+1, y+1, board)
+		openCell(x-1, y+1, board)
 	}
 }
 
@@ -123,8 +141,6 @@ func isBomb(x int, y int, board *Board) bool {
 	return false
 
 }
-
-
 
 func PrintBoardGameOver(board Board) {
 	fmt.Print("  ")
