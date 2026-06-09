@@ -14,10 +14,10 @@ import (
 const tam = 9
 
 type Board struct {
-	boardClosed [tam][tam]int  //-1 bomba
+	BoardClosed [tam][tam]int  //-1 bomba
 	IsOpen      [tam][tam]bool //0 fechada 1 open
 	IsFlag      [tam][tam]bool
-	won         int //1 se ganhou e -1 se perdeu
+	Won         int //1 se ganhou e -1 se perdeu
 }
 
 // número entre 0 e 9
@@ -29,31 +29,31 @@ func CreateBoard() Board { //inicia as bombas em cada posição
 	for contBomb < bombMax {
 		x := rand.Intn(tam)
 		y := rand.Intn(tam)
-		if board.boardClosed[x][y] != -1 {
-			board.boardClosed[x][y] = -1
-			if inBounds(x+1, y) && board.boardClosed[x+1][y] != -1 { //isBomb
-				board.boardClosed[x+1][y]++
+		if board.BoardClosed[x][y] != -1 {
+			board.BoardClosed[x][y] = -1
+			if inBounds(x+1, y) && board.BoardClosed[x+1][y] != -1 { //isBomb
+				board.BoardClosed[x+1][y]++
 			}
-			if inBounds(x-1, y) && board.boardClosed[x-1][y] != -1 {
-				board.boardClosed[x-1][y]++
+			if inBounds(x-1, y) && board.BoardClosed[x-1][y] != -1 {
+				board.BoardClosed[x-1][y]++
 			}
-			if inBounds(x, y+1) && board.boardClosed[x][y+1] != -1 {
-				board.boardClosed[x][y+1]++
+			if inBounds(x, y+1) && board.BoardClosed[x][y+1] != -1 {
+				board.BoardClosed[x][y+1]++
 			}
-			if inBounds(x, y-1) && board.boardClosed[x][y-1] != -1 {
-				board.boardClosed[x][y-1]++
+			if inBounds(x, y-1) && board.BoardClosed[x][y-1] != -1 {
+				board.BoardClosed[x][y-1]++
 			}
-			if inBounds(x+1, y+1) && board.boardClosed[x+1][y+1] != -1 {
-				board.boardClosed[x+1][y+1]++
+			if inBounds(x+1, y+1) && board.BoardClosed[x+1][y+1] != -1 {
+				board.BoardClosed[x+1][y+1]++
 			}
-			if inBounds(x-1, y-1) && board.boardClosed[x-1][y-1] != -1 {
-				board.boardClosed[x-1][y-1]++
+			if inBounds(x-1, y-1) && board.BoardClosed[x-1][y-1] != -1 {
+				board.BoardClosed[x-1][y-1]++
 			}
-			if inBounds(x-1, y+1) && board.boardClosed[x-1][y+1] != -1 {
-				board.boardClosed[x-1][y+1]++
+			if inBounds(x-1, y+1) && board.BoardClosed[x-1][y+1] != -1 {
+				board.BoardClosed[x-1][y+1]++
 			}
-			if inBounds(x+1, y-1) && board.boardClosed[x+1][y-1] != -1 {
-				board.boardClosed[x+1][y-1]++
+			if inBounds(x+1, y-1) && board.BoardClosed[x+1][y-1] != -1 {
+				board.BoardClosed[x+1][y-1]++
 			}
 			contBomb++
 		}
@@ -74,7 +74,7 @@ func PlayerLoop(args string, board *Board) {
 	}
 	switch {
 	case commands[0] == "q":
-		board.won = -1
+		board.Won = -1
 		return
 	case commands[0] == "help":
 		fmt.Println("Commands:")
@@ -142,20 +142,20 @@ func PlayerLoop(args string, board *Board) {
 				return
 			}
 			if isBomb(y-1, x-1, board) {
-				board.won = -1
+				board.Won = -1
 			} else {
 				openCell(y-1, x-1, board)
 			}
 			ganhou := true
 			for i := 0; i < tam; i++ {
 				for j := 0; j < tam; j++ {
-					if board.boardClosed[i][j] != -1 && !board.IsOpen[i][j] {
+					if board.BoardClosed[i][j] != -1 && !board.IsOpen[i][j] {
 						ganhou = false
 					}
 				}
 			}
 			if ganhou {
-				board.won = 1
+				board.Won = 1
 			}
 		}
 	}
@@ -167,7 +167,7 @@ func openCell(x int, y int, board *Board) {
 		return
 	}
 	board.IsOpen[x][y] = true
-	if board.boardClosed[x][y] == 0 {
+	if board.BoardClosed[x][y] == 0 {
 		openCell(x+1, y, board)
 		openCell(x-1, y, board)
 		openCell(x, y+1, board)
@@ -188,7 +188,7 @@ func GetInput() string {
 }
 
 func isBomb(x int, y int, board *Board) bool {
-	if board.boardClosed[x][y] == -1 {
+	if board.BoardClosed[x][y] == -1 {
 		return true
 	}
 	return false
@@ -215,13 +215,13 @@ func PrintBoardGameOver(board Board) {
 		fmt.Printf("%d ", i+1)
 	}
 	fmt.Print("\n")
-	for i := range board.boardClosed {
+	for i := range board.BoardClosed {
 		fmt.Printf("%d ", i+1)
-		for j := range board.boardClosed[i] {
-			if board.boardClosed[i][j] == -1 {
+		for j := range board.BoardClosed[i] {
+			if board.BoardClosed[i][j] == -1 {
 				fmt.Print(styles.Lose("✸ "))
 			} else {
-				switch board.boardClosed[i][j] {
+				switch board.BoardClosed[i][j] {
 				case 0:
 					fmt.Print("□ ")
 				case 1:
@@ -245,6 +245,7 @@ func PrintBoardGameOver(board Board) {
 		}
 		fmt.Println()
 	}
+
 }
 
 func PrintBoard(board Board) {
@@ -262,10 +263,10 @@ func PrintBoard(board Board) {
 				fmt.Print(styles.Flag("⚑ "))
 			} else if board.IsOpen[i][j] == false {
 				fmt.Print(styles.Closed("▣ "))
-			} else if board.boardClosed[i][j] == -1 {
+			} else if board.BoardClosed[i][j] == -1 {
 				fmt.Print(styles.Lose("✸ "))
 			} else {
-				switch board.boardClosed[i][j] {
+				switch board.BoardClosed[i][j] {
 				case 0:
 					fmt.Print("  ")
 				case 1:

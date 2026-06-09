@@ -15,7 +15,6 @@ import (
 -Shake tela quando selecionar uma bomba no minesweeper
 -Play localy
 -Play online(host e client)
--Salvar no meio do jogo
 -Upgrades?
 -Bet in blackjack(atributo(global?) q é chamado da main e salvo no json, double)
 -Jogos:
